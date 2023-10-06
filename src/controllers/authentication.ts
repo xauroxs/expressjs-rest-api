@@ -1,7 +1,7 @@
 import express from "express";
 
 import { authentication, random } from "../helpers";
-import { createUser, getUserByEmail } from "../db/users";
+import { createUserAction, getUserByEmailAction } from "../db/users";
 
 export const register = async (req: express.Request, res: express.Response) => {
   try {
@@ -11,14 +11,14 @@ export const register = async (req: express.Request, res: express.Response) => {
       return res.sendStatus(400);
     }
 
-    const existingUser = await getUserByEmail(email);
+    const existingUser = await getUserByEmailAction(email);
 
     if (existingUser) {
       res.sendStatus(400);
     }
 
     const salt = random();
-    const user = await createUser({
+    const user = await createUserAction({
       email,
       username,
       authentication: {
@@ -43,7 +43,7 @@ export const login = async (req: express.Request, res: express.Response) => {
       return res.sendStatus(400);
     }
 
-    const user = await getUserByEmail(email).select(
+    const user = await getUserByEmailAction(email).select(
       "+authentication.salt +authentication.password"
     );
 
