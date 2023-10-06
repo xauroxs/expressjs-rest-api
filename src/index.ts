@@ -32,8 +32,9 @@ server.listen(port, () => {
 
 const username = process.env.DB_USERNAME;
 const password = process.env.DB_PASSWORD;
+const cluster = process.env.DB_CLUSTER;
 
-const MONGO_URL = `mongodb+srv://${username}:${password}@cluster0.t5n5lr1.mongodb.net/?retryWrites=true&w=majority&appName=AtlasApp`;
+const MONGO_URL = `mongodb+srv://${username}:${password}@${cluster}.t5n5lr1.mongodb.net/?retryWrites=true&w=majority&appName=AtlasApp`;
 
 mongoose.Promise = Promise;
 
